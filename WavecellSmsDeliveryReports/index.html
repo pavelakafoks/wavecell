@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Messages</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <script>
+        $( document ).ready(function() {
+            function checkNotifications() {
+                $(".clock").text(new Date().toLocaleString());
+                $.get("../api/notification/", function (data) {
+                    if (data) {
+                        $(".results").prepend(data + "<br/><br/>");
+                    }
+                });
+            }
+
+            setInterval(checkNotifications, 5000);
+        });
+    </script>
+</head>
+<body>
+    <h1>Messages statuses.</h1>
+    <div>Waiting for sms delivery notifications...</div>
+    <br/>
+    <div> Last date/time of checking: <span class="clock"></span></div>
+    <br />
+    <div class="results">
+    </div>
+</body>
+</html>
