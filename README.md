@@ -28,6 +28,9 @@ Also you can send emulation of notification via console test application.
 
 
 You can use my test server (I deployed web app from this solution) to test delivery notification: http://136.243.171.216:49979
+Url for notifications: http://136.243.171.216:49979/api/notification
+
+As option, for test delivery notifications you can use a very useful service: https://requestb.in .
 
 
 ToDo list:

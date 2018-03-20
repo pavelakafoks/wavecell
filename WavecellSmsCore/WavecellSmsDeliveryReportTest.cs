@@ -1,8 +1,10 @@
-﻿namespace WavecellSmsCore
+﻿using System.Threading.Tasks;
+
+namespace WavecellSmsCore
 {
     public static class WavecellSms
     {
-        public static string WavecellSmsDeliveryReportTest(string url)
+        public static async Task<string> WavecellSmsDeliveryReportTest(string url)
         {
             var body = @"<DeliveryReport version=""3"">
                   <UMID>371e8f64-195b-e711-8144-020897df54591-notToBeSent</UMID>
@@ -21,7 +23,7 @@
 
             var response = Web.PostRequest(url, body, null);
 
-            return response;
+            return await response;
         }
 
     }
