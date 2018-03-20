@@ -23,8 +23,7 @@ When I created this solution I saw a message in the cabinet:
 and in Api documentation:
 > We strongly recommend to set default callback url for your account (send request to support team) and use this field only when you want to overwrite default webhook.
 
-!!! Callback parameter "dlrCallbackUrl" didn't work in my tests. This section will be updated after I receive information from support and set up a callback url for my account.
-Also you can send emulation of notification via console test application.
+I tested both methods - via default url and via "DlrCallbackUrl" parameter. Works fine.
 
 
 You can use my test server (I deployed web app from this solution) to test delivery notification: http://136.243.171.216:49979
@@ -32,6 +31,25 @@ Url for notifications: http://136.243.171.216:49979/api/notification
 
 As option, for test delivery notifications you can use a very useful service: https://requestb.in .
 
+I received delivery status:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<DeliveryReport version="3">
+  <UMID>10a1d1ac-312c-e811-8144-06ed3428fe67</UMID>
+  <DateTimeStamp>2018-03-20T11:27:49.5263081Z</DateTimeStamp>
+  <Status>DELIVERED TO DEVICE</Status>
+  <Reason />
+  <Source>test</Source>
+  <SubAccountId>test_5jJ97_hq</SubAccountId>
+  <Attempt>0</Attempt>
+  <ErrorCode>0</ErrorCode>
+  <Destination>79650000000</Destination>
+  <Price>0</Price>
+  <Currency>EUR</Currency>
+  <ClientMessageId>2222</ClientMessageId>
+</DeliveryReport>
+```
 
 
 ToDo list:
