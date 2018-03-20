@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using WavecellSmsCore;
 
 namespace WavecelSmsTest
 {
     class WavecellSmsTest
     {
-        private static SendSmsSingleResult TestSmsSingle()
+        private static async Task<SendSmsSingleResult> TestSmsSingle()
         {
             var appSettings = ConfigurationManager.AppSettings;
             var sendSmsSingleData = new SendSmsSingleData(
@@ -24,10 +25,10 @@ namespace WavecelSmsTest
                 , appSettings["urlSingle"]
                 , appSettings["subAccountId"]);
 
-            return WavecellSmsCore.WavecellSmsCore.SendSmsSingle(sendSmsSingleData);
+            return await WavecellSmsCore.WavecellSmsCore.SendSmsSingle(sendSmsSingleData);
         }
 
-        private static SendSmsManyResult TestSmsMany()
+        private static Task<SendSmsManyResult> TestSmsMany()
         {
             var appSettings = ConfigurationManager.AppSettings;
             var messages = new List<SendSmsSingleRequest>
@@ -72,6 +73,10 @@ namespace WavecelSmsTest
                 //var url = "http://localhost:49979/api/notification";         // local test
                 //var url = "http://136.243.171.216:49979/api/notification";   // server test
                 //var res = WavecellSmsCore.WavecellSms.WavecellSmsDeliveryReportTest(url);
+
+
+                res.Wait();
+                var result = res.Result;
 
                 Debugger.Break();
             }

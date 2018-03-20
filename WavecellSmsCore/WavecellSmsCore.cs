@@ -1,17 +1,18 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace WavecellSmsCore
 {
     public static class WavecellSmsCore
     {
-        public static SendSmsSingleResult SendSmsSingle(SendSmsSingleData smsSingleData)
+        public static async Task<SendSmsSingleResult> SendSmsSingle(SendSmsSingleData smsSingleData)
         {
             if (string.IsNullOrEmpty(smsSingleData.ApiKey))
             {
                 throw new ArgumentNullException("ApiKey is required parameter");
             }
             var body = Newtonsoft.Json.JsonConvert.SerializeObject(smsSingleData.SendSmsSingleRequest);
-            var response = Web.PostRequest(smsSingleData.Url, body, smsSingleData.ApiKey);
+            var response = await Web.PostRequest(smsSingleData.Url, body, smsSingleData.ApiKey);
 
             if (string.IsNullOrEmpty(response))
             {
@@ -23,10 +24,10 @@ namespace WavecellSmsCore
         }
 
 
-        public static SendSmsManyResult SendSmsMany(SendSmsManyData smsManyData)
+        public static async Task<SendSmsManyResult> SendSmsMany(SendSmsManyData smsManyData)
         {
             var body = Newtonsoft.Json.JsonConvert.SerializeObject(smsManyData.SendSmsManyRequest);
-            var response = Web.PostRequest(smsManyData.Url, body, smsManyData.ApiKey);
+            var response = await Web.PostRequest(smsManyData.Url, body, smsManyData.ApiKey);
 
             if (string.IsNullOrEmpty(response))
             {

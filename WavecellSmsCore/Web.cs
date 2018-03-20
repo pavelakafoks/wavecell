@@ -1,44 +1,28 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace WavecellSmsCore
 {
     public sealed class Web
     {
-        public static string PostRequest(string url, string body, string key)
+        public static async Task<string> PostRequest(string url, string body, string key)
         {
             string responseText;
-            var request = (HttpWebRequest)WebRequest.Create(url);
-            request.Timeout = 20000; // 20 seconds
-            request.Method = "POST";
-            request.ContentType = "application/json";
-
-            byte[] data = Encoding.UTF8.GetBytes(body);
-            request.ContentLength = data.Length;
-
-            if (!string.IsNullOrEmpty(key))
+            using (var client = new HttpClient())
             {
-                request.Headers.Add("Authorization", "Bearer {apiKey}".Replace("{apiKey}", key));
-            }
-
-            using (var requestStream = request.GetRequestStream())
-            {
-                requestStream.Write(data, 0, data.Length);
-            }
-
-            using (var response = (HttpWebResponse)request.GetResponse())
-            using (var dataStream = response.GetResponseStream())
-            using (var reader = new StreamReader(dataStream ?? throw new InvalidOperationException("Response is empty")))
-            {
-                responseText = reader.ReadToEnd();
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer {apiKey}".Replace("{apiKey}", key));
+                client.BaseAddress = new Uri(url);
+                var response = await client.PostAsync(url, new  StringContent(body,
+                                                                Encoding.UTF8, 
+                                                                "application/json"));
+                responseText = await response.Content.ReadAsStringAsync();
 #if DEBUG
                 Debug.WriteLine("Post request response: " + responseText);
 #endif
             }
-
             return responseText;
         }
     }
